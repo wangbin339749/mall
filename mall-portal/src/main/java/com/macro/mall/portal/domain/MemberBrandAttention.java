@@ -7,8 +7,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.Date;
 
 /**
- * 会员关注的品牌
- * Created by macro on 2018/8/2.
+ * 会员关注的商家
+ * Created by wangbin on 2019/2/20.
  */
 @Document
 public class MemberBrandAttention {

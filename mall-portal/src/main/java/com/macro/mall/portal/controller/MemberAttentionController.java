@@ -12,16 +12,16 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * 会员关注品牌管理Controller
+ * 会员关注商家管理Controller
  * Created by macro on 2018/8/2.
  */
 @Controller
-@Api(tags = "MemberAttentionController", description = "会员关注品牌管理")
+@Api(tags = "MemberAttentionController", description = "会员关注商家管理")
 @RequestMapping("/member/attention")
 public class MemberAttentionController {
     @Autowired
     private MemberAttentionService memberAttentionService;
-    @ApiOperation("添加品牌关注")
+    @ApiOperation("添加商家关注")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ResponseBody
     public Object add(@RequestBody MemberBrandAttention memberBrandAttention) {
