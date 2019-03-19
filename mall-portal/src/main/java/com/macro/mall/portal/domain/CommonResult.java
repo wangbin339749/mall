@@ -14,6 +14,9 @@ public class CommonResult {
     public static final int SUCCESS = 200;
     //操作失败
     public static final int FAILED = 500;
+
+    //用户未注册
+    public static final int FAILED_UNREGISTER = 5001;
     private int code;
     private String message;
     private Object data;
@@ -70,6 +73,16 @@ public class CommonResult {
         this.message = message;
         return this;
     }
+
+    /**
+     * 用户未注册
+     */
+    public CommonResult failed(int code, String msg) {
+        this.code = code;
+        this.message = msg;
+        return this;
+    }
+
 
     public int getCode() {
         return code;

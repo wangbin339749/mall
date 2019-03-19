@@ -23,7 +23,7 @@ public interface UmsMemberService {
      * 用户注册
      */
     @Transactional
-    CommonResult register(String username, String password, String telephone, String authCode);
+    CommonResult register(String username,String userInfo);
 
     /**
      * 生成验证码
@@ -45,4 +45,18 @@ public interface UmsMemberService {
      * 根据会员id修改会员积分
      */
     void updateIntegration(Long id,Integer integration);
+
+    /**
+     * token检测
+     * @param token
+     * @return
+     */
+    CommonResult tokenCheck(String token);
+
+    /**
+     * 登录
+     * @param code
+     * @return
+     */
+    CommonResult login(String code);
 }

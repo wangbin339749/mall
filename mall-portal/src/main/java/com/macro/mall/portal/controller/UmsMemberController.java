@@ -21,29 +21,25 @@ public class UmsMemberController {
     @Autowired
     private UmsMemberService memberService;
 
-    @ApiOperation("注册")
+    @ApiOperation("微信账号注册")
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     @ResponseBody
-    public Object register(@RequestParam String username,
-                           @RequestParam String password,
-                           @RequestParam String telephone,
-                           @RequestParam String authCode) {
-        return memberService.register(username, password, telephone, authCode);
+    public Object register(@RequestParam String code, @RequestParam String userInfo) {
+        return memberService.register(code, userInfo);
     }
 
-    @ApiOperation("获取验证码")
-    @RequestMapping(value = "/getAuthCode", method = RequestMethod.GET)
+    @ApiOperation("login登录")
+    @RequestMapping(value = "/login_user", method = RequestMethod.POST)
     @ResponseBody
-    public Object getAuthCode(@RequestParam String telephone) {
-        return memberService.generateAuthCode(telephone);
+    public Object login(@RequestParam String code) {
+        return memberService.login(code);
     }
 
-    @ApiOperation("修改密码")
-    @RequestMapping(value = "/updatePassword", method = RequestMethod.POST)
+    @ApiOperation("token校验")
+    @RequestMapping(value = "/token_check", method = RequestMethod.POST)
     @ResponseBody
-    public Object updatePassword(@RequestParam String telephone,
-                                 @RequestParam String password,
-                                 @RequestParam String authCode) {
-        return memberService.updatePassword(telephone,password,authCode);
+    public Object tokenCheck(@RequestParam String token) {
+        return memberService.tokenCheck(token);
     }
+
 }

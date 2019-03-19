@@ -127,6 +127,20 @@ public class UmsMember implements Serializable {
      */
     private Integer historyIntegration;
 
+    /**
+     * 微信openid
+     *
+     * @mbggenerated
+     */
+    private String weixinOpenid;
+
+    /**
+     * 微信session_key
+     *
+     * @mbggenerated
+     */
+    private String weixinSessionKey;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -281,6 +295,22 @@ public class UmsMember implements Serializable {
         this.historyIntegration = historyIntegration;
     }
 
+    public String getWeixinOpenid() {
+        return weixinOpenid;
+    }
+
+    public void setWeixinOpenid(String weixinOpenid) {
+        this.weixinOpenid = weixinOpenid;
+    }
+
+    public String getWeixinSessionKey() {
+        return weixinSessionKey;
+    }
+
+    public void setWeixinSessionKey(String weixinSessionKey) {
+        this.weixinSessionKey = weixinSessionKey;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -306,6 +336,8 @@ public class UmsMember implements Serializable {
         sb.append(", growth=").append(growth);
         sb.append(", luckeyCount=").append(luckeyCount);
         sb.append(", historyIntegration=").append(historyIntegration);
+        sb.append(", weixinOpenid=").append(weixinOpenid);
+        sb.append(", weixinSessionKey=").append(weixinSessionKey);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
