@@ -1,6 +1,7 @@
 package com.macro.mall.portal.controller;
 
 import com.macro.mall.model.OmsCartItem;
+import com.macro.mall.portal.domain.CartList;
 import com.macro.mall.portal.domain.CartProduct;
 import com.macro.mall.portal.domain.CartPromotionItem;
 import com.macro.mall.portal.domain.CommonResult;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 购物车管理Controller
@@ -41,16 +43,16 @@ public class OmsCartItemController {
     @ApiOperation("获取某个会员的购物车列表")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
-    public Object list() {
-        List<OmsCartItem> cartItemList = cartItemService.list(memberService.getCurrentMember().getId());
-        return new CommonResult().success(cartItemList);
+    public Object list(@RequestParam Long memberID) {
+        List<CartList> map = cartItemService.list(memberID);
+        return new CommonResult().success(map);
     }
 
     @ApiOperation("获取某个会员的购物车列表,包括促销信息")
     @RequestMapping(value = "/list/promotion", method = RequestMethod.GET)
     @ResponseBody
-    public Object listPromotion() {
-        List<CartPromotionItem> cartPromotionItemList = cartItemService.listPromotion(memberService.getCurrentMember().getId());
+    public Object listPromotion(@RequestParam Long memberID) {
+        List<CartPromotionItem> cartPromotionItemList = cartItemService.listPromotion(memberID);
         return new CommonResult().success(cartPromotionItemList);
     }
 

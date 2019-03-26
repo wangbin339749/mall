@@ -5,6 +5,7 @@ import com.macro.mall.model.OmsCartItem;
 import com.macro.mall.model.OmsCartItemExample;
 import com.macro.mall.model.UmsMember;
 import com.macro.mall.portal.dao.PortalProductDao;
+import com.macro.mall.portal.domain.CartList;
 import com.macro.mall.portal.domain.CartProduct;
 import com.macro.mall.portal.domain.CartPromotionItem;
 import com.macro.mall.portal.service.OmsCartItemService;
@@ -15,9 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * 购物车管理Service实现类
@@ -31,15 +30,12 @@ public class OmsCartItemServiceImpl implements OmsCartItemService {
     private PortalProductDao productDao;
     @Autowired
     private OmsPromotionService promotionService;
-    @Autowired
-    private UmsMemberService memberService;
+//    @Autowired
+//    private UmsMemberService memberService;
 
     @Override
     public int add(OmsCartItem cartItem) {
         int count;
-        UmsMember currentMember =memberService.getCurrentMember();
-        cartItem.setMemberId(currentMember.getId());
-        cartItem.setMemberNickname(currentMember.getNickname());
         cartItem.setDeleteStatus(0);
         OmsCartItem existCartItem = getCartItem(cartItem);
         if (existCartItem == null) {
@@ -77,20 +73,23 @@ public class OmsCartItemServiceImpl implements OmsCartItemService {
     }
 
     @Override
-    public List<OmsCartItem> list(Long memberId) {
+    public List<CartList> list(Long memberId) {
         OmsCartItemExample example = new OmsCartItemExample();
         example.createCriteria().andDeleteStatusEqualTo(0).andMemberIdEqualTo(memberId);
-        return cartItemMapper.selectByExample(example);
+        List<OmsCartItem> omsCartItems =  cartItemMapper.selectByExample(example);
+        List<CartList> productCartMap = groupCartItemByBrand(omsCartItems);
+        return productCartMap;
     }
 
     @Override
     public List<CartPromotionItem> listPromotion(Long memberId) {
-        List<OmsCartItem> cartItemList = list(memberId);
-        List<CartPromotionItem> cartPromotionItemList = new ArrayList<>();
-        if(!CollectionUtils.isEmpty(cartItemList)){
-            cartPromotionItemList = promotionService.calcCartPromotion(cartItemList);
-        }
-        return cartPromotionItemList;
+//        List<OmsCartItem> cartItemList = list(memberId);
+//        List<CartPromotionItem> cartPromotionItemList = new ArrayList<>();
+//        if(!CollectionUtils.isEmpty(cartItemList)){
+//            cartPromotionItemList = promotionService.calcCartPromotion(cartItemList);
+//        }
+//        return cartPromotionItemList;
+        return null;
     }
 
     @Override
@@ -137,5 +136,31 @@ public class OmsCartItemServiceImpl implements OmsCartItemService {
         OmsCartItemExample example = new OmsCartItemExample();
         example.createCriteria().andMemberIdEqualTo(memberId);
         return cartItemMapper.updateByExampleSelective(record,example);
+    }
+
+    /**
+     * 以品牌为单位对购物车中商品进行分组
+     */
+    private List<CartList> groupCartItemByBrand(List<OmsCartItem> cartItemList) {
+        Map<String, List<OmsCartItem>> productCartMap = new TreeMap<>();
+        for (OmsCartItem cartItem : cartItemList) {
+            List<OmsCartItem> productCartItemList = productCartMap.get(cartItem.getProductBrand());
+            if (productCartItemList == null) {
+                productCartItemList = new ArrayList<>();
+                productCartItemList.add(cartItem);
+                productCartMap.put(cartItem.getProductBrand(), productCartItemList);
+            } else {
+                productCartItemList.add(cartItem);
+            }
+        }
+
+        List<CartList> cartLists = new ArrayList<>();
+        for (String brand : productCartMap.keySet()){
+            CartList cartList = new CartList();
+            cartList.setBrand(brand);
+            cartList.setList(productCartMap.get(brand));
+            cartLists.add(cartList);
+        }
+        return cartLists;
     }
 }
