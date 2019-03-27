@@ -158,6 +158,7 @@ public class OmsCartItemServiceImpl implements OmsCartItemService {
         for (String brand : productCartMap.keySet()){
             CartList cartList = new CartList();
             cartList.setBrand(brand);
+            cartList.setChecked(true);
             cartList.setList(productCartMap.get(brand));
             cartLists.add(cartList);
         }

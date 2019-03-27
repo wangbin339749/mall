@@ -7,6 +7,15 @@ import java.util.List;
 public class CartList {
     private String brand;
     private List<OmsCartItem> list;
+    private boolean checked;
+
+    public boolean isChecked() {
+        return checked;
+    }
+
+    public void setChecked(boolean checked) {
+        this.checked = checked;
+    }
 
     public String getBrand() {
         return brand;
