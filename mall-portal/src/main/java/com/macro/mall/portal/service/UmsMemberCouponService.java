@@ -1,7 +1,7 @@
 package com.macro.mall.portal.service;
 
 import com.macro.mall.model.SmsCouponHistory;
-import com.macro.mall.portal.domain.CartPromotionItem;
+import com.macro.mall.portal.domain.CartList;
 import com.macro.mall.portal.domain.CommonResult;
 import com.macro.mall.portal.domain.SmsCouponHistoryDetail;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,5 +28,5 @@ public interface UmsMemberCouponService {
     /**
      * 根据购物车信息获取可用优惠券
      */
-    List<SmsCouponHistoryDetail> listCart(List<CartPromotionItem> cartItemList, Integer type);
+    List<SmsCouponHistoryDetail> listCart(Long memberID, List<CartList> cartItemList, Integer type);
 }

@@ -5,9 +5,19 @@ import com.macro.mall.model.OmsCartItem;
 import java.util.List;
 
 public class CartList {
+    private int brand_id;
     private String brand;
+//    private List<>
     private List<OmsCartItem> list;
     private boolean checked;
+
+    public int getBrand_id() {
+        return brand_id;
+    }
+
+    public void setBrand_id(int brand_id) {
+        this.brand_id = brand_id;
+    }
 
     public boolean isChecked() {
         return checked;

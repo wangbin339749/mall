@@ -23,17 +23,18 @@ public class OmsPortalOrderController {
     @ApiOperation("根据购物车信息生成确认单信息")
     @RequestMapping(value = "/generateConfirmOrder",method = RequestMethod.POST)
     @ResponseBody
-    public Object generateConfirmOrder(){
-        ConfirmOrderResult confirmOrderResult = portalOrderService.generateConfirmOrder();
+    public Object generateConfirmOrder(@RequestBody Long memberId){
+        ConfirmOrderResult confirmOrderResult = portalOrderService.generateConfirmOrder(memberId);
         return new CommonResult().success(confirmOrderResult);
     }
 
-    @ApiOperation("根据购物车信息生成订单")
-    @RequestMapping(value = "/generateOrder",method = RequestMethod.POST)
-    @ResponseBody
-    public Object generateOrder(@RequestBody OrderParam orderParam){
-        return portalOrderService.generateOrder(orderParam);
-    }
+//    @ApiOperation("根据购物车信息生成订单")
+//    @RequestMapping(value = "/generateOrder",method = RequestMethod.POST)
+//    @ResponseBody
+//    public Object generateOrder(@RequestBody OrderParam orderParam){
+////        return portalOrderService.generateOrder(orderParam);
+//        return null;
+//    }
 
     @ApiOperation("支付成功的回调")
     @RequestMapping(value = "/paySuccess",method = RequestMethod.POST)

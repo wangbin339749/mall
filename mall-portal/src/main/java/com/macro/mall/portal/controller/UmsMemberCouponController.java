@@ -1,9 +1,7 @@
 package com.macro.mall.portal.controller;
 
 import com.macro.mall.model.SmsCouponHistory;
-import com.macro.mall.portal.domain.CartPromotionItem;
 import com.macro.mall.portal.domain.CommonResult;
-import com.macro.mall.portal.domain.SmsCouponHistoryDetail;
 import com.macro.mall.portal.service.OmsCartItemService;
 import com.macro.mall.portal.service.UmsMemberCouponService;
 import com.macro.mall.portal.service.UmsMemberService;
@@ -54,8 +52,9 @@ public class UmsMemberCouponController {
     @RequestMapping(value = "/list/cart/{type}", method = RequestMethod.GET)
     @ResponseBody
     public Object listCart(@PathVariable Integer type) {
-        List<CartPromotionItem> cartPromotionItemList = cartItemService.listPromotion(memberService.getCurrentMember().getId());
-        List<SmsCouponHistoryDetail> couponHistoryList = memberCouponService.listCart(cartPromotionItemList, type);
-        return new CommonResult().success(couponHistoryList);
+//        List<CartItem> cartPromotionItemList = cartItemService.listPromotion(memberService.getCurrentMember().getId());
+//        List<SmsCouponHistoryDetail> couponHistoryList = memberCouponService.listCart(cartPromotionItemList, type);
+//        return new CommonResult().success(couponHistoryList);
+        return null;
     }
 }

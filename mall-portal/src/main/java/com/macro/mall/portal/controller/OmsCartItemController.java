@@ -3,7 +3,6 @@ package com.macro.mall.portal.controller;
 import com.macro.mall.model.OmsCartItem;
 import com.macro.mall.portal.domain.CartList;
 import com.macro.mall.portal.domain.CartProduct;
-import com.macro.mall.portal.domain.CartPromotionItem;
 import com.macro.mall.portal.domain.CommonResult;
 import com.macro.mall.portal.service.OmsCartItemService;
 import com.macro.mall.portal.service.UmsMemberService;
@@ -45,14 +44,6 @@ public class OmsCartItemController {
     public Object list(@RequestParam Long memberID) {
         List<CartList> map = cartItemService.list(memberID);
         return new CommonResult().success(map);
-    }
-
-    @ApiOperation("获取某个会员的购物车列表,包括促销信息")
-    @RequestMapping(value = "/list/promotion", method = RequestMethod.GET)
-    @ResponseBody
-    public Object listPromotion(@RequestParam Long memberID) {
-        List<CartPromotionItem> cartPromotionItemList = cartItemService.listPromotion(memberID);
-        return new CommonResult().success(cartPromotionItemList);
     }
 
     @ApiOperation("修改购物车中某个商品的数量")

@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class ConfirmOrderResult {
     //包含优惠信息的购物车信息
-    private List<CartPromotionItem> cartPromotionItemList;
+    private List<CartList> cartPromotionItemList;
     //用户收货地址列表
     private List<UmsMemberReceiveAddress> memberReceiveAddressList;
     //用户可用优惠券列表
@@ -24,11 +24,11 @@ public class ConfirmOrderResult {
     //计算的金额
     private CalcAmount calcAmount;
 
-    public List<CartPromotionItem> getCartPromotionItemList() {
+    public List<CartList> getCartPromotionItemList() {
         return cartPromotionItemList;
     }
 
-    public void setCartPromotionItemList(List<CartPromotionItem> cartPromotionItemList) {
+    public void setCartPromotionItemList(List<CartList> cartPromotionItemList) {
         this.cartPromotionItemList = cartPromotionItemList;
     }
 

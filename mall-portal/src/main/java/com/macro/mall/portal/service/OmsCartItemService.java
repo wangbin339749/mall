@@ -3,11 +3,9 @@ package com.macro.mall.portal.service;
 import com.macro.mall.model.OmsCartItem;
 import com.macro.mall.portal.domain.CartList;
 import com.macro.mall.portal.domain.CartProduct;
-import com.macro.mall.portal.domain.CartPromotionItem;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * 购物车管理Service
@@ -24,11 +22,6 @@ public interface OmsCartItemService {
      * 根据会员编号获取购物车列表
      */
     List<CartList> list(Long memberId);
-
-    /**
-     * 获取包含促销活动信息的购物车列表
-     */
-    List<CartPromotionItem> listPromotion(Long memberId);
 
     /**
      * 修改某个购物车商品的数量

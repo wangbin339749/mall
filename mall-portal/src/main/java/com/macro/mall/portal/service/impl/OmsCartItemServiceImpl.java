@@ -3,14 +3,10 @@ package com.macro.mall.portal.service.impl;
 import com.macro.mall.mapper.OmsCartItemMapper;
 import com.macro.mall.model.OmsCartItem;
 import com.macro.mall.model.OmsCartItemExample;
-import com.macro.mall.model.UmsMember;
 import com.macro.mall.portal.dao.PortalProductDao;
 import com.macro.mall.portal.domain.CartList;
 import com.macro.mall.portal.domain.CartProduct;
-import com.macro.mall.portal.domain.CartPromotionItem;
 import com.macro.mall.portal.service.OmsCartItemService;
-import com.macro.mall.portal.service.OmsPromotionService;
-import com.macro.mall.portal.service.UmsMemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -28,10 +24,6 @@ public class OmsCartItemServiceImpl implements OmsCartItemService {
     private OmsCartItemMapper cartItemMapper;
     @Autowired
     private PortalProductDao productDao;
-    @Autowired
-    private OmsPromotionService promotionService;
-//    @Autowired
-//    private UmsMemberService memberService;
 
     @Override
     public int add(OmsCartItem cartItem) {
@@ -76,21 +68,13 @@ public class OmsCartItemServiceImpl implements OmsCartItemService {
     public List<CartList> list(Long memberId) {
         OmsCartItemExample example = new OmsCartItemExample();
         example.createCriteria().andDeleteStatusEqualTo(0).andMemberIdEqualTo(memberId);
-        List<OmsCartItem> omsCartItems =  cartItemMapper.selectByExample(example);
-        List<CartList> productCartMap = groupCartItemByBrand(omsCartItems);
-        return productCartMap;
+        List<OmsCartItem> cartItemList =  cartItemMapper.selectByExample(example);
+        List<CartList> cartLists = groupCartItemByBrand(cartItemList);
+
+//        List<CartList> cartLists1 = getPromotionInfo(cartLists);
+        return cartLists;
     }
 
-    @Override
-    public List<CartPromotionItem> listPromotion(Long memberId) {
-//        List<OmsCartItem> cartItemList = list(memberId);
-//        List<CartPromotionItem> cartPromotionItemList = new ArrayList<>();
-//        if(!CollectionUtils.isEmpty(cartItemList)){
-//            cartPromotionItemList = promotionService.calcCartPromotion(cartItemList);
-//        }
-//        return cartPromotionItemList;
-        return null;
-    }
 
     @Override
     public int updateQuantity(Long id, Long memberId, Integer quantity) {

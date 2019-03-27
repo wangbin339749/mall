@@ -13,13 +13,13 @@ public interface OmsPortalOrderService {
     /**
      * 根据用户购物车信息生成确认单信息
      */
-    ConfirmOrderResult generateConfirmOrder();
+    ConfirmOrderResult generateConfirmOrder(Long memberID);
 
     /**
      * 根据提交信息生成订单
      */
     @Transactional
-    CommonResult generateOrder(OrderParam orderParam);
+    CommonResult generateOrder(Long memberID, OrderParam orderParam);
 
     /**
      * 支付成功后的回调

@@ -1,8 +1,6 @@
 package com.macro.mall.portal.config;
 
 import com.macro.mall.model.UmsMember;
-import com.macro.mall.portal.component.*;
-//import com.macro.mall.portal.domain.MemberDetails;
 import com.macro.mall.portal.service.UmsMemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

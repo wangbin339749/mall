@@ -1,8 +1,8 @@
 package com.macro.mall.dto;
 
 import com.macro.mall.model.SmsCoupon;
-import com.macro.mall.model.SmsCouponProductCategoryRelation;
-import com.macro.mall.model.SmsCouponProductRelation;
+import com.macro.mall.model.SmsCouponBrandRelation;
+import com.macro.mall.model.SmsCouponMemberRelation;
 
 import java.util.List;
 
@@ -12,23 +12,23 @@ import java.util.List;
  */
 public class SmsCouponParam extends SmsCoupon {
     //优惠券绑定的商品
-    private List<SmsCouponProductRelation> productRelationList;
+    private List<SmsCouponMemberRelation> productRelationList;
     //优惠券绑定的商品分类
-    private List<SmsCouponProductCategoryRelation> productCategoryRelationList;
+    private List<SmsCouponBrandRelation> productCategoryRelationList;
 
-    public List<SmsCouponProductRelation> getProductRelationList() {
+    public List<SmsCouponMemberRelation> getProductRelationList() {
         return productRelationList;
     }
 
-    public void setProductRelationList(List<SmsCouponProductRelation> productRelationList) {
+    public void setProductRelationList(List<SmsCouponMemberRelation> productRelationList) {
         this.productRelationList = productRelationList;
     }
 
-    public List<SmsCouponProductCategoryRelation> getProductCategoryRelationList() {
+    public List<SmsCouponBrandRelation> getProductCategoryRelationList() {
         return productCategoryRelationList;
     }
 
-    public void setProductCategoryRelationList(List<SmsCouponProductCategoryRelation> productCategoryRelationList) {
+    public void setProductCategoryRelationList(List<SmsCouponBrandRelation> productCategoryRelationList) {
         this.productCategoryRelationList = productCategoryRelationList;
     }
 }
