@@ -1,11 +1,12 @@
 package com.macro.mall.portal.service.impl;
 
 import com.macro.mall.mapper.OmsCartItemMapper;
+import com.macro.mall.mapper.SmsBrandCouponMapper;
 import com.macro.mall.model.OmsCartItem;
 import com.macro.mall.model.OmsCartItemExample;
-import com.macro.mall.portal.dao.PortalProductDao;
+import com.macro.mall.model.SmsBrandCoupon;
+import com.macro.mall.model.SmsBrandCouponExample;
 import com.macro.mall.portal.domain.CartList;
-import com.macro.mall.portal.domain.CartProduct;
 import com.macro.mall.portal.service.OmsCartItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,9 @@ public class OmsCartItemServiceImpl implements OmsCartItemService {
     @Autowired
     private OmsCartItemMapper cartItemMapper;
     @Autowired
-    private PortalProductDao productDao;
+    private SmsBrandCouponMapper brandCouponMapper;
+//    @Autowired
+//    private PortalProductDao productDao;
 
     @Override
     public int add(OmsCartItem cartItem) {
@@ -71,20 +74,35 @@ public class OmsCartItemServiceImpl implements OmsCartItemService {
         List<OmsCartItem> cartItemList =  cartItemMapper.selectByExample(example);
         List<CartList> cartLists = groupCartItemByBrand(cartItemList);
 
-//        List<CartList> cartLists1 = getPromotionInfo(cartLists);
+        List<CartList> cartListsWithCoupon = getCoupons(cartLists);//获取商家优惠券
+        return cartListsWithCoupon;
+    }
+
+    /**
+     * 获取商家优惠券
+     * @param cartLists
+     * @return
+     */
+    private List<CartList> getCoupons(List<CartList> cartLists) {
+        for(CartList cartList : cartLists){
+            SmsBrandCouponExample example = new SmsBrandCouponExample();
+            example.createCriteria().andBrandIdEqualTo(cartList.getBrandId());
+            List<SmsBrandCoupon> brandCoupons = brandCouponMapper.selectByExample(example);
+            cartList.setSmsBrandCoupons(brandCoupons);
+        }
         return cartLists;
     }
 
 
-    @Override
-    public int updateQuantity(Long id, Long memberId, Integer quantity) {
-        OmsCartItem cartItem = new OmsCartItem();
-        cartItem.setQuantity(quantity);
-        OmsCartItemExample example = new OmsCartItemExample();
-        example.createCriteria().andDeleteStatusEqualTo(0)
-                .andIdEqualTo(id).andMemberIdEqualTo(memberId);
-        return cartItemMapper.updateByExampleSelective(cartItem, example);
-    }
+//    @Override
+//    public int updateQuantity(Long id, Long memberId, Integer quantity) {
+//        OmsCartItem cartItem = new OmsCartItem();
+//        cartItem.setQuantity(quantity);
+//        OmsCartItemExample example = new OmsCartItemExample();
+//        example.createCriteria().andDeleteStatusEqualTo(0)
+//                .andIdEqualTo(id).andMemberIdEqualTo(memberId);
+//        return cartItemMapper.updateByExampleSelective(cartItem, example);
+//    }
 
     @Override
     public int delete(Long memberId, List<Long> ids) {
@@ -95,10 +113,10 @@ public class OmsCartItemServiceImpl implements OmsCartItemService {
         return cartItemMapper.updateByExampleSelective(record, example);
     }
 
-    @Override
-    public CartProduct getCartProduct(Long productId) {
-        return productDao.getCartProduct(productId);
-    }
+//    @Override
+//    public CartProduct getCartProduct(Long productId) {
+//        return productDao.getCartProduct(productId);
+//    }
 
     @Override
     public int updateAttr(OmsCartItem cartItem) {
@@ -142,6 +160,7 @@ public class OmsCartItemServiceImpl implements OmsCartItemService {
         for (String brand : productCartMap.keySet()){
             CartList cartList = new CartList();
             cartList.setBrand(brand);
+            cartList.setBrandId(productCartMap.get(brand).get(0).getBrandId());
             cartList.setChecked(true);
             cartList.setList(productCartMap.get(brand));
             cartLists.add(cartList);

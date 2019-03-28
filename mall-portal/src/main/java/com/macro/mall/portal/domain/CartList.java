@@ -1,22 +1,31 @@
 package com.macro.mall.portal.domain;
 
 import com.macro.mall.model.OmsCartItem;
+import com.macro.mall.model.SmsBrandCoupon;
 
 import java.util.List;
 
 public class CartList {
-    private int brand_id;
+    private Long brandId;
     private String brand;
-//    private List<>
+    private List<SmsBrandCoupon> smsBrandCoupons;
     private List<OmsCartItem> list;
     private boolean checked;
 
-    public int getBrand_id() {
-        return brand_id;
+    public List<SmsBrandCoupon> getSmsBrandCoupons() {
+        return smsBrandCoupons;
     }
 
-    public void setBrand_id(int brand_id) {
-        this.brand_id = brand_id;
+    public void setSmsBrandCoupons(List<SmsBrandCoupon> smsBrandCoupons) {
+        this.smsBrandCoupons = smsBrandCoupons;
+    }
+
+    public Long getBrandId() {
+        return brandId;
+    }
+
+    public void setBrandId(Long brandId) {
+        this.brandId = brandId;
     }
 
     public boolean isChecked() {

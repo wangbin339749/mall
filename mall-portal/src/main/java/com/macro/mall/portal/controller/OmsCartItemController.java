@@ -2,7 +2,7 @@ package com.macro.mall.portal.controller;
 
 import com.macro.mall.model.OmsCartItem;
 import com.macro.mall.portal.domain.CartList;
-import com.macro.mall.portal.domain.CartProduct;
+//import com.macro.mall.portal.domain.CartProduct;
 import com.macro.mall.portal.domain.CommonResult;
 import com.macro.mall.portal.service.OmsCartItemService;
 import com.macro.mall.portal.service.UmsMemberService;
@@ -46,56 +46,56 @@ public class OmsCartItemController {
         return new CommonResult().success(map);
     }
 
-    @ApiOperation("修改购物车中某个商品的数量")
-    @RequestMapping(value = "/update/quantity", method = RequestMethod.GET)
-    @ResponseBody
-    public Object updateQuantity(@RequestParam Long id,
-                                 @RequestParam Integer quantity) {
-        int count = cartItemService.updateQuantity(id,memberService.getCurrentMember().getId(),quantity);
-        if (count > 0) {
-            return new CommonResult().success(count);
-        }
-        return new CommonResult().failed();
-    }
+//    @ApiOperation("修改购物车中某个商品的数量")
+//    @RequestMapping(value = "/update/quantity", method = RequestMethod.GET)
+//    @ResponseBody
+//    public Object updateQuantity(@RequestParam Long id,
+//                                 @RequestParam Integer quantity) {
+//        int count = cartItemService.updateQuantity(id,memberService.getCurrentMember().getId(),quantity);
+//        if (count > 0) {
+//            return new CommonResult().success(count);
+//        }
+//        return new CommonResult().failed();
+//    }
 
-    @ApiOperation("获取购物车中某个商品的规格,用于重选规格")
-    @RequestMapping(value = "/getProduct/{productId}", method = RequestMethod.GET)
-    @ResponseBody
-    public Object getCartProduct(@PathVariable Long productId) {
-        CartProduct cartProduct = cartItemService.getCartProduct(productId);
-        return new CommonResult().success(cartProduct);
-    }
+//    @ApiOperation("获取购物车中某个商品的规格,用于重选规格")
+//    @RequestMapping(value = "/getProduct/{productId}", method = RequestMethod.GET)
+//    @ResponseBody
+//    public Object getCartProduct(@PathVariable Long productId) {
+//        CartProduct cartProduct = cartItemService.getCartProduct(productId);
+//        return new CommonResult().success(cartProduct);
+//    }
 
-    @ApiOperation("修改购物车中商品的规格")
-    @RequestMapping(value = "/update/attr", method = RequestMethod.POST)
-    @ResponseBody
-    public Object updateAttr(@RequestBody OmsCartItem cartItem) {
-        int count = cartItemService.updateAttr(cartItem);
-        if (count > 0) {
-            return new CommonResult().success(count);
-        }
-        return new CommonResult().failed();
-    }
+//    @ApiOperation("修改购物车中商品的规格")
+//    @RequestMapping(value = "/update/attr", method = RequestMethod.POST)
+//    @ResponseBody
+//    public Object updateAttr(@RequestBody OmsCartItem cartItem) {
+//        int count = cartItemService.updateAttr(cartItem);
+//        if (count > 0) {
+//            return new CommonResult().success(count);
+//        }
+//        return new CommonResult().failed();
+//    }
 
     @ApiOperation("删除购物车中的某个商品")
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     @ResponseBody
-    public Object delete(@RequestParam("ids") List<Long> ids) {
-        int count = cartItemService.delete(memberService.getCurrentMember().getId(),ids);
+    public Object delete(@RequestParam("ids") List<Long> ids, @RequestParam Long member) {
+        int count = cartItemService.delete(memberService.getCurrentMember(member).getId(),ids);
         if (count > 0) {
             return new CommonResult().success(count);
         }
         return new CommonResult().failed();
     }
 
-    @ApiOperation("清空购物车")
-    @RequestMapping(value = "/clear", method = RequestMethod.POST)
-    @ResponseBody
-    public Object clear() {
-        int count = cartItemService.clear(memberService.getCurrentMember().getId());
-        if (count > 0) {
-            return new CommonResult().success(count);
-        }
-        return new CommonResult().failed();
-    }
+//    @ApiOperation("清空购物车")
+//    @RequestMapping(value = "/clear", method = RequestMethod.POST)
+//    @ResponseBody
+//    public Object clear() {
+//        int count = cartItemService.clear(memberService.getCurrentMember().getId());
+//        if (count > 0) {
+//            return new CommonResult().success(count);
+//        }
+//        return new CommonResult().failed();
+//    }
 }

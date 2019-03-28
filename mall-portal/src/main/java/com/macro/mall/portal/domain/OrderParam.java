@@ -9,8 +9,6 @@ public class OrderParam {
     private Long memberReceiveAddressId;
     //优惠券id
     private Long couponId;
-    //使用的积分数
-    private Integer useIntegration;
     //支付方式
     private Integer payType;
 
@@ -36,13 +34,5 @@ public class OrderParam {
 
     public void setPayType(Integer payType) {
         this.payType = payType;
-    }
-
-    public Integer getUseIntegration() {
-        return useIntegration;
-    }
-
-    public void setUseIntegration(Integer useIntegration) {
-        this.useIntegration = useIntegration;
     }
 }

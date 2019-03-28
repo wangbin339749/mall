@@ -32,8 +32,8 @@ public class UmsMemberCouponController {
     @ApiOperation("领取指定优惠券")
     @RequestMapping(value = "/add/{couponId}", method = RequestMethod.POST)
     @ResponseBody
-    public Object add(@PathVariable Long couponId) {
-        return memberCouponService.add(couponId);
+    public Object add(@PathVariable Long couponId, @PathVariable Long memberID) {
+        return memberCouponService.add(couponId, memberID);
     }
 
     @ApiOperation("获取用户优惠券列表")
@@ -41,8 +41,8 @@ public class UmsMemberCouponController {
             allowableValues = "0,1,2", paramType = "query", dataType = "integer")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
-    public Object list(@RequestParam(value = "useStatus", required = false) Integer useStatus) {
-        List<SmsCouponHistory> couponHistoryList = memberCouponService.list(useStatus);
+    public Object list(@RequestParam(value = "useStatus", required = false) Integer useStatus, @PathVariable Long memberID) {
+        List<SmsCouponHistory> couponHistoryList = memberCouponService.list(useStatus, memberID);
         return new CommonResult().success(couponHistoryList);
     }
 

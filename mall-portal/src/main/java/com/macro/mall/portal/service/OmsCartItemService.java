@@ -2,7 +2,7 @@ package com.macro.mall.portal.service;
 
 import com.macro.mall.model.OmsCartItem;
 import com.macro.mall.portal.domain.CartList;
-import com.macro.mall.portal.domain.CartProduct;
+//import com.macro.mall.portal.domain.CartProduct;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -26,7 +26,7 @@ public interface OmsCartItemService {
     /**
      * 修改某个购物车商品的数量
      */
-    int updateQuantity(Long id, Long memberId, Integer quantity);
+//    int updateQuantity(Long id, Long memberId, Integer quantity);
 
     /**
      * 批量删除购物车中的商品
@@ -36,7 +36,7 @@ public interface OmsCartItemService {
     /**
      *获取购物车中用于选择商品规格的商品信息
      */
-    CartProduct getCartProduct(Long productId);
+//    CartProduct getCartProduct(Long productId);
 
     /**
      * 修改购物车中商品的规格

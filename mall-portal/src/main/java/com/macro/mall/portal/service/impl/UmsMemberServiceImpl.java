@@ -195,12 +195,13 @@ public class UmsMemberServiceImpl implements UmsMemberService {
     }
 
     @Override
-    public UmsMember getCurrentMember() {
-        return null;
+    public UmsMember getCurrentMember(Long memberID) {
 //        SecurityContext ctx = SecurityContextHolder.getContext();
 //        Authentication auth = ctx.getAuthentication();
 //        MemberDetails memberDetails = (MemberDetails) auth.getPrincipal();
 //        return memberDetails.getUmsMember();
+        UmsMember member = memberMapper.selectByPrimaryKey(memberID);
+        return  member;
     }
 
     @Override

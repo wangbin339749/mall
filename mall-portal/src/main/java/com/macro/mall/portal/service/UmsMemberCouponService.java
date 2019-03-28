@@ -17,13 +17,13 @@ public interface UmsMemberCouponService {
      * 会员添加优惠券
      */
     @Transactional
-    CommonResult add(Long couponId);
+    CommonResult add(Long couponId, Long memberID);
 
     /**
      * 获取优惠券列表
      * @param useStatus 优惠券的使用状态
      */
-    List<SmsCouponHistory> list(Integer useStatus);
+    List<SmsCouponHistory> list(Integer useStatus, Long memberID);
 
     /**
      * 根据购物车信息获取可用优惠券

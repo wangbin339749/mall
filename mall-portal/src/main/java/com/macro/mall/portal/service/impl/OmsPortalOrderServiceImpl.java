@@ -35,8 +35,6 @@ public class OmsPortalOrderServiceImpl implements OmsPortalOrderService {
     @Autowired
     private UmsIntegrationConsumeSettingMapper integrationConsumeSettingMapper;
     @Autowired
-    private PmsSkuStockMapper skuStockMapper;
-    @Autowired
     private SmsCouponHistoryDao couponHistoryDao;
     @Autowired
     private OmsOrderMapper orderMapper;
@@ -61,22 +59,16 @@ public class OmsPortalOrderServiceImpl implements OmsPortalOrderService {
     public ConfirmOrderResult generateConfirmOrder(Long memberID) {
         ConfirmOrderResult result = new ConfirmOrderResult();
         //获取购物车信息
-        UmsMember currentMember = memberService.getCurrentMember();
-        List<CartList> cartLists = cartItemService.list(currentMember.getId());
-        result.setCartPromotionItemList(cartLists);
+        List<CartList> cartLists = cartItemService.list(memberID);
+        result.setCartLists(cartLists);
         //获取用户收货地址列表
-        List<UmsMemberReceiveAddress> memberReceiveAddressList = memberReceiveAddressService.list();
+        List<UmsMemberReceiveAddress> memberReceiveAddressList = memberReceiveAddressService.list(memberID);
         result.setMemberReceiveAddressList(memberReceiveAddressList);
         //获取用户可用优惠券列表
         List<SmsCouponHistoryDetail> couponHistoryDetailList = memberCouponService.listCart(memberID, cartLists, 1);
         result.setCouponHistoryDetailList(couponHistoryDetailList);
-        //获取用户积分
-        result.setMemberIntegration(currentMember.getIntegration());
-        //获取积分使用规则
-        UmsIntegrationConsumeSetting integrationConsumeSetting = integrationConsumeSettingMapper.selectByPrimaryKey(1L);
-        result.setIntegrationConsumeSetting(integrationConsumeSetting);
-        //计算总金额、活动优惠、应付金额
-        ConfirmOrderResult.CalcAmount calcAmount = calcCartAmount(cartLists);
+        //计算总金额、应付金额
+        ConfirmOrderResult.CalcAmount calcAmount = calcCartAmount(cartLists, couponHistoryDetailList);
         result.setCalcAmount(calcAmount);
         return result;
     }
@@ -504,19 +496,19 @@ public class OmsPortalOrderServiceImpl implements OmsPortalOrderService {
      * @param couponHistoryDetail 可用优惠券详情
      */
     private void handleCouponAmount(List<OmsOrderItem> orderItemList, SmsCouponHistoryDetail couponHistoryDetail) {
-        SmsCoupon coupon = couponHistoryDetail.getCoupon();
-        if (coupon.getUseType().equals(0)) {
-            //全场通用
-            calcPerCouponAmount(orderItemList, coupon);
-        } else if (coupon.getUseType().equals(1)) {
-            //指定分类
-            List<OmsOrderItem> couponOrderItemList = getCouponOrderItemByRelation(couponHistoryDetail, orderItemList, 0);
-            calcPerCouponAmount(couponOrderItemList, coupon);
-        } else if (coupon.getUseType().equals(2)) {
-            //指定商品
-            List<OmsOrderItem> couponOrderItemList = getCouponOrderItemByRelation(couponHistoryDetail, orderItemList, 1);
-            calcPerCouponAmount(couponOrderItemList, coupon);
-        }
+//        SmsCoupon coupon = couponHistoryDetail.getCoupon();
+//        if (coupon.getUseType().equals(0)) {
+//            //全场通用
+//            calcPerCouponAmount(orderItemList, coupon);
+//        } else if (coupon.getUseType().equals(1)) {
+//            //指定分类
+//            List<OmsOrderItem> couponOrderItemList = getCouponOrderItemByRelation(couponHistoryDetail, orderItemList, 0);
+//            calcPerCouponAmount(couponOrderItemList, coupon);
+//        } else if (coupon.getUseType().equals(2)) {
+//            //指定商品
+//            List<OmsOrderItem> couponOrderItemList = getCouponOrderItemByRelation(couponHistoryDetail, orderItemList, 1);
+//            calcPerCouponAmount(couponOrderItemList, coupon);
+//        }
     }
 
     /**
@@ -524,14 +516,14 @@ public class OmsPortalOrderServiceImpl implements OmsPortalOrderService {
      *
      * @param orderItemList 可用优惠券的下单商品商品
      */
-    private void calcPerCouponAmount(List<OmsOrderItem> orderItemList, SmsCoupon coupon) {
-        BigDecimal totalAmount = calcTotalAmount(orderItemList);
-        for (OmsOrderItem orderItem : orderItemList) {
-            //(商品价格/可用商品总价)*优惠券面额
-            BigDecimal couponAmount = orderItem.getProductPrice().divide(totalAmount, 3, RoundingMode.HALF_EVEN).multiply(coupon.getAmount());
-            orderItem.setCouponAmount(couponAmount);
-        }
-    }
+//    private void calcPerCouponAmount(List<OmsOrderItem> orderItemList, SmsCoupon coupon) {
+//        BigDecimal totalAmount = calcTotalAmount(orderItemList);
+//        for (OmsOrderItem orderItem : orderItemList) {
+//            //(商品价格/可用商品总价)*优惠券面额
+//            BigDecimal couponAmount = orderItem.getProductPrice().divide(totalAmount, 3, RoundingMode.HALF_EVEN).multiply(coupon.getAmount());
+//            orderItem.setCouponAmount(couponAmount);
+//        }
+//    }
 
     /**
      * 获取与优惠券有关系的下单商品
@@ -601,13 +593,13 @@ public class OmsPortalOrderServiceImpl implements OmsPortalOrderService {
     /**
      * 锁定下单商品的所有库存
      */
-    private void lockStock(List<OmsCartItem> cartItemList) {
-        for (OmsCartItem cartItem : cartItemList) {
-            PmsSkuStock skuStock = skuStockMapper.selectByPrimaryKey(cartItem.getProductSkuId());
-            skuStock.setLockStock(skuStock.getLockStock() + cartItem.getQuantity());
-            skuStockMapper.updateByPrimaryKeySelective(skuStock);
-        }
-    }
+//    private void lockStock(List<OmsCartItem> cartItemList) {
+//        for (OmsCartItem cartItem : cartItemList) {
+//            PmsSkuStock skuStock = skuStockMapper.selectByPrimaryKey(cartItem.getProductSkuId());
+//            skuStock.setLockStock(skuStock.getLockStock() + cartItem.getQuantity());
+//            skuStockMapper.updateByPrimaryKeySelective(skuStock);
+//        }
+//    }
 
     /**
      * 判断下单商品是否都有库存
@@ -624,17 +616,17 @@ public class OmsPortalOrderServiceImpl implements OmsPortalOrderService {
     /**
      * 计算购物车中商品的价格
      */
-    private ConfirmOrderResult.CalcAmount calcCartAmount(List<CartList> cartPromotionItemList) {
+    private ConfirmOrderResult.CalcAmount calcCartAmount(List<CartList> cartLists, List<SmsCouponHistoryDetail> couponHistoryDetailList) {
         ConfirmOrderResult.CalcAmount calcAmount = new ConfirmOrderResult.CalcAmount();
         calcAmount.setFreightAmount(new BigDecimal(0));
         BigDecimal totalAmount = new BigDecimal("0");
         BigDecimal promotionAmount = new BigDecimal("0");
-//        for (CartItem cartPromotionItem : cartPromotionItemList) {
-//            totalAmount = totalAmount.add(cartPromotionItem.getPrice().multiply(new BigDecimal(cartPromotionItem.getQuantity())));
-//            promotionAmount = promotionAmount.add(cartPromotionItem.getReduceAmount().multiply(new BigDecimal(cartPromotionItem.getQuantity())));
-//        }
+        for (int i =0; i< cartLists.size(); i++){
+            for (int j =0 ; j < cartLists.get(i).getList().size(); j ++){
+                totalAmount = totalAmount.add(cartLists.get(i).getList().get(j).getPrice().multiply(new BigDecimal(cartLists.get(i).getList().get(j).getQuantity())));
+            }
+        }
         calcAmount.setTotalAmount(totalAmount);
-        calcAmount.setPromotionAmount(promotionAmount);
         calcAmount.setPayAmount(totalAmount.subtract(promotionAmount));
         return calcAmount;
     }
