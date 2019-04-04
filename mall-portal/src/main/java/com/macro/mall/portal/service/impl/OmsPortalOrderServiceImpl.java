@@ -60,6 +60,8 @@ public class OmsPortalOrderServiceImpl implements OmsPortalOrderService {
         ConfirmOrderResult result = new ConfirmOrderResult();
         //获取购物车信息
         List<CartList> cartLists = cartItemService.list(memberID);
+//        //获取选中的购物车信息
+//        List<CartList> cartListsSelected = getSelectedCartList(cartLists);
         result.setCartLists(cartLists);
         //获取用户收货地址列表
         List<UmsMemberReceiveAddress> memberReceiveAddressList = memberReceiveAddressService.list(memberID);
@@ -71,6 +73,15 @@ public class OmsPortalOrderServiceImpl implements OmsPortalOrderService {
         ConfirmOrderResult.CalcAmount calcAmount = calcCartAmount(cartLists, couponHistoryDetailList);
         result.setCalcAmount(calcAmount);
         return result;
+    }
+
+    /**
+     * 根据购物车信息获取选中的购物车信息
+     * @param cartLists
+     * @return
+     */
+    private List<CartList> getSelectedCartList(List<CartList> cartLists) {
+        return null;
     }
 
     @Override

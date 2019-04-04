@@ -50,7 +50,7 @@ public class UmsMemberReceiveAddressServiceImpl implements UmsMemberReceiveAddre
     public List<UmsMemberReceiveAddress> list(Long memberID) {
         UmsMember currentMember = memberService.getCurrentMember(memberID);
         UmsMemberReceiveAddressExample example = new UmsMemberReceiveAddressExample();
-        example.createCriteria().andMemberIdEqualTo(currentMember.getId());
+        example.createCriteria().andMemberIdEqualTo(currentMember.getId()).andDefaultStatusEqualTo(1);
         return addressMapper.selectByExample(example);
     }
 

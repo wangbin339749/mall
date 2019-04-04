@@ -37,11 +37,11 @@ public class HomeServiceImpl implements HomeService {
     @Autowired
     private CmsSubjectMapper subjectMapper;
 
-//    @Override
-//    public HomeContentResult content() {
-//        HomeContentResult result = new HomeContentResult();
-//        //获取首页广告
-//        result.setAdvertiseList(getHomeAdvertiseList());
+    @Override
+    public HomeContentResult content() {
+        HomeContentResult result = new HomeContentResult();
+        //获取首页广告
+        result.setAdvertiseList(getHomeAdvertiseList());
 //        //获取推荐品牌
 //        result.setBrandList(homeDao.getRecommendBrandList(0,4));
 //        //获取秒杀信息
@@ -52,13 +52,9 @@ public class HomeServiceImpl implements HomeService {
 //        result.setHotProductList(homeDao.getHotProductList(0,4));
 //        //获取推荐专题
 //        result.setSubjectList(homeDao.getRecommendSubjectList(0,4));
-//        return result;
-//    }
-
-    @Override
-    public HomeContentResult content() {
-        return null;
+        return result;
     }
+
 
     @Override
     public List<PmsProduct> recommendProductList(Integer pageSize, Integer pageNum) {
