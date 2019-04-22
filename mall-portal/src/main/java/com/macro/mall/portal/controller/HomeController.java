@@ -50,13 +50,13 @@ public class HomeController {
         return new CommonResult().success(productCategoryList);
     }
 
-    @ApiOperation("根据分类获取专题")
-    @RequestMapping(value = "/subjectList", method = RequestMethod.GET)
-    @ResponseBody
-    public Object getSubjectList(@RequestParam(required = false) Long cateId,
-                                 @RequestParam(value = "pageSize", defaultValue = "4") Integer pageSize,
-                                 @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
-        List<CmsSubject> subjectList = homeService.getSubjectList(cateId,pageSize,pageNum);
-        return new CommonResult().success(subjectList);
-    }
+//    @ApiOperation("根据分类获取专题")
+//    @RequestMapping(value = "/subjectList", method = RequestMethod.GET)
+//    @ResponseBody
+//    public Object getSubjectList(@RequestParam(required = false) Long cateId,
+//                                 @RequestParam(value = "pageSize", defaultValue = "4") Integer pageSize,
+//                                 @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
+//        List<CmsSubject> subjectList = homeService.getSubjectList(cateId,pageSize,pageNum);
+//        return new CommonResult().success(subjectList);
+//    }
 }
